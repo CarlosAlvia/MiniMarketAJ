@@ -12,14 +12,14 @@ public aspect SalidaProductos {
 		try {
 		    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
 		    String fechaYhora= dtf.format(LocalDateTime.now());
-            String ruta ="src/DVMarket/market.txt";
-            String contenido = "Borrar Item" +fechaYhora;
+            String ruta ="src/market.txt";
+            String contenido = "Borrar Item " +fechaYhora+"\n";
             File file = new File(ruta);
 
             if (!file.exists()) {
                 file.createNewFile();
             }
-            FileWriter fw = new FileWriter(file);
+            FileWriter fw = new FileWriter(file,true);
             BufferedWriter bw = new BufferedWriter(fw);
             bw.write(contenido);
             bw.close();

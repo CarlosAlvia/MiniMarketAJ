@@ -9,8 +9,7 @@ import java.time.format.DateTimeFormatter;
 import org.aspectj.lang.reflect.MethodSignature;
 
 public aspect AspectoNuevo {
-	DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-	String fechaHora = dtf.format(LocalDateTime.now());
+	
 	
 	pointcut llamarMetodo(): call(* *.buscar*(..));
 		after(): llamarMetodo(){
@@ -18,14 +17,15 @@ public aspect AspectoNuevo {
 			 String methodName = signature.getMethod().getName();
 			 String nombreObjeto = thisJoinPoint.getTarget().getClass().getName();
 			 try {
+				 	DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+					String fechaHora = dtf.format(LocalDateTime.now());
 		            String ruta = "src/consultas.txt";
-		            String contenido = ("Nombre del método: "+methodName+" Nombre del objeto: "+nombreObjeto+" Fecha y hora: "+fechaHora);
+		            String contenido = ("Nombre del método: "+methodName+" Nombre del objeto: "+nombreObjeto+" Fecha y hora: "+fechaHora+"\n");
 		            File file = new File(ruta);
-		            // Si el archivo no existe es creado
 		            if (!file.exists()) {
-		                file.createNewFile();
+		               file.createNewFile();
 		            }
-		            FileWriter fw = new FileWriter(file);
+		            FileWriter fw = new FileWriter(file, true);
 		            BufferedWriter bw = new BufferedWriter(fw);
 		            bw.write(contenido);
 		            bw.close();
